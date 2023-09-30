@@ -1,4 +1,5 @@
 use actix_web::{rt::System, web, App, HttpResponse, HttpServer};
+use crate::db::db;
 
 pub async fn start_api() {
     let address = "127.0.0.1";
@@ -21,5 +22,6 @@ fn configure_routes(cfg: &mut web::ServiceConfig) {
 }
 
 async fn ping() -> HttpResponse {
+    println!("Books: {:?}", db::read_books().expect("Failed to read books"));
     HttpResponse::Ok().body("Connected!")
 }

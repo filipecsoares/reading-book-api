@@ -1,3 +1,5 @@
+mod db;
+mod model;
 mod api;
 use api::*;
 

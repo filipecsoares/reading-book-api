@@ -1,7 +1,8 @@
 use chrono::{NaiveDate, Utc};
 use uuid::Uuid;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug)]
+#[derive(Debug, Deserialize, Serialize)]
 pub struct Book {
     id: String,
     title: String,
@@ -25,7 +26,7 @@ impl Book {
         start_date: Option<NaiveDate>,
         end_date: Option<NaiveDate>,
     ) -> Self {
-        let id = Uuid::new_v4().to_hyphenated().to_string();
+        let id = Uuid::new_v4().hyphenated().to_string();
         Self {
             id,
             title,
@@ -40,7 +41,7 @@ impl Book {
     }
 }
 
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Deserialize, Serialize)]
 pub enum ReadingStatus {
     ToRead,
     Reading,
