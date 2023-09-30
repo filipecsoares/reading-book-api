@@ -18,3 +18,5 @@ The "Book Library Management with Reading Progress Tracker" is a Rust-based stud
     - Introduce error handling mechanisms and custom error types to provide informative feedback in case of invalid inputs or operations.
 6. CLI Interface:
     - Develop a simple command-line interface to interact with the API, enabling users to perform actions like adding, viewing, updating, and deleting books in their collection.
+7. Web API:
+    - Develop a simple web API using actix to manage books by sending requests to the API.
