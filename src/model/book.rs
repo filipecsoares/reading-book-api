@@ -1,4 +1,4 @@
-use chrono::{NaiveDate, Utc};
+use chrono::NaiveDate;
 use uuid::Uuid;
 use serde::{Deserialize, Serialize};
 
@@ -10,7 +10,7 @@ pub struct Book {
     isbn: String,
     year: i16,
     pages: i16,
-    pub reading_status: ReadingStatus,
+    pub reading_status: Option<ReadingStatus>,
     start_date: Option<NaiveDate>,
     end_date: Option<NaiveDate>,
 }
@@ -22,11 +22,15 @@ impl Book {
         isbn: String,
         year: i16,
         pages: i16,
-        reading_status: ReadingStatus,
+        reading_status: Option<ReadingStatus>,
         start_date: Option<NaiveDate>,
         end_date: Option<NaiveDate>,
     ) -> Self {
         let id = Uuid::new_v4().hyphenated().to_string();
+        let mut reading_status = reading_status;
+        if reading_status.is_none() {
+            reading_status = Some(ReadingStatus::ToRead);
+        }
         Self {
             id,
             title,
@@ -60,12 +64,12 @@ mod tests {
             "isbn".to_string(),
             2000,
             100,
-            ReadingStatus::ToRead,
+            Some(ReadingStatus::ToRead),
             None,
             None,
         );
         assert!(book.id.len() > 0);
-        assert_eq!(book.reading_status, ReadingStatus::ToRead);
+        assert_eq!(book.reading_status, Some(ReadingStatus::ToRead));
         assert_eq!(book.title, "title");
     }
 }
