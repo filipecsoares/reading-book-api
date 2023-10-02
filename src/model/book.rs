@@ -4,13 +4,13 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Book {
-    id: String,
-    title: String,
+    pub id: String,
+    pub title: String,
     author: String,
     isbn: String,
     year: i16,
     pages: i16,
-    reading_status: ReadingStatus,
+    pub reading_status: ReadingStatus,
     start_date: Option<NaiveDate>,
     end_date: Option<NaiveDate>,
 }

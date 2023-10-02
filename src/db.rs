@@ -10,4 +10,11 @@ pub mod db {
         println!("Loaded {} books", books.len());
         Ok(books)
     }
+
+    pub fn add_book(book: Book) -> Result<(), Box<dyn Error>> {
+        let mut books = read_books()?;
+        books.push(book);
+        std::fs::write(DB_FILENAME, serde_json::to_string(&books)?)?;
+        Ok(())
+    }
 }
