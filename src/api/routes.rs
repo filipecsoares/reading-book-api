@@ -18,10 +18,15 @@ fn configure_routes(cfg: &mut web::ServiceConfig) {
     cfg.service(
         web::scope("/api")
         .route("/ping", web::get().to(ping))
+        .route("/books", web::get().to(get_books))
     );
 }
 
 async fn ping() -> HttpResponse {
     println!("Books: {:?}", db::read_books().expect("Failed to read books"));
     HttpResponse::Ok().body("Connected!")
+}
+
+async fn get_books() -> HttpResponse {
+    HttpResponse::Ok().json(db::read_books().expect("Failed to read books"))
 }
