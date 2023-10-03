@@ -23,7 +23,8 @@ fn configure_routes(cfg: &mut web::ServiceConfig) {
         web::scope("/api")
             .route("/ping", web::get().to(ping))
             .route("/books", web::get().to(get_books))
-            .route("/books", web::post().to(add_book)),
+            .route("/books", web::post().to(add_book))
+            .route("/books/{id}", web::get().to(get_book)),
     );
 }
 
@@ -49,4 +50,9 @@ async fn add_book(request: web::Json<BookRequest>) -> HttpResponse {
         request.end_date,
     );
     HttpResponse::Created().json(db::add_book(book).expect("Failed to add book"))
+}
+
+async fn get_book(id: web::Path<String>) -> HttpResponse {
+    let id = id.into_inner();
+    HttpResponse::Ok().json(db::get_book(id).expect("Failed to get book"))
 }

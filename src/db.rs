@@ -17,4 +17,9 @@ pub mod db {
         std::fs::write(DB_FILENAME, serde_json::to_string(&books)?)?;
         Ok(())
     }
+
+    pub fn get_book(id: String) -> Result<Book, Box<dyn Error>> {
+        let books = read_books()?;
+        Ok(books.into_iter().find(|b| b.id == id).unwrap())
+    }
 }
