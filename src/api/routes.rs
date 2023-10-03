@@ -27,6 +27,7 @@ fn configure_routes(cfg: &mut web::ServiceConfig) {
     );
 }
 
+/// Ping endpoint for health check
 async fn ping() -> HttpResponse {
     HttpResponse::Ok().body("Connected!")
 }

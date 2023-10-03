@@ -16,6 +16,23 @@ pub struct Book {
 }
 
 impl Book {
+    /// Creates a new book with a generated ID.
+    /// If `reading_status` is `None`, it will be set to `ToRead`.
+    /// 
+    /// # Examples
+    /// 
+    /// ```rust
+    /// let book = Book::new(
+    ///     "title".to_string(),
+    ///     "author".to_string(),
+    ///     "isbn".to_string(),
+    ///     2000,
+    ///     100,
+    ///     Some(ReadingStatus::ToRead),
+    ///     None,
+    ///     None,
+    /// );
+    /// ```
     pub fn new(
         title: String,
         author: String,
