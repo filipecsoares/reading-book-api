@@ -22,4 +22,11 @@ pub mod db {
         let books = read_books()?;
         Ok(books.into_iter().find(|b| b.id == id).unwrap())
     }
+
+    pub fn delete_book(id: String) -> Result<(), Box<dyn Error>> {
+        let mut books = read_books()?;
+        books.retain(|b| b.id != id);
+        std::fs::write(DB_FILENAME, serde_json::to_string(&books)?)?;
+        Ok(())
+    }
 }
