@@ -29,4 +29,12 @@ pub mod db {
         std::fs::write(DB_FILENAME, serde_json::to_string(&books)?)?;
         Ok(())
     }
+
+    pub fn update_book(book: Book) -> Result<(), Box<dyn Error>> {
+        let mut books = read_books()?;
+        books.retain(|b| b.id != book.id);
+        books.push(book);
+        std::fs::write(DB_FILENAME, serde_json::to_string(&books)?)?;
+        Ok(())
+    }
 }

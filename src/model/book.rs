@@ -60,6 +60,13 @@ impl Book {
             end_date,
         }
     }
+
+    pub fn new_with_id(id: String, book: Book) -> Self {
+        Self {
+            id,
+            ..book
+        }
+    }
 }
 
 #[derive(Debug, PartialEq, Deserialize, Serialize)]
