@@ -1,6 +1,6 @@
 pub mod db {
     use std::error::Error;
-    use crate::model::book::Book;
+    use crate::model::book::{Book, ReadingStatus};
 
     const DB_FILENAME: &str = ".books.json";
 
@@ -34,6 +34,22 @@ pub mod db {
         let mut books = read_books()?;
         books.retain(|b| b.id != book.id);
         books.push(book);
+        std::fs::write(DB_FILENAME, serde_json::to_string(&books)?)?;
+        Ok(())
+    }
+
+    pub fn complete_book(id: String) -> Result<(), Box<dyn Error>> {
+        let mut books = read_books()?;
+        let book = books.iter_mut().find(|b| b.id == id).unwrap();
+        book.reading_status = Some(ReadingStatus::Completed);
+        std::fs::write(DB_FILENAME, serde_json::to_string(&books)?)?;
+        Ok(())
+    }
+
+    pub fn reading_book(id: String) -> Result<(), Box<dyn Error>> {
+        let mut books = read_books()?;
+        let book = books.iter_mut().find(|b| b.id == id).unwrap();
+        book.reading_status = Some(ReadingStatus::Reading);
         std::fs::write(DB_FILENAME, serde_json::to_string(&books)?)?;
         Ok(())
     }

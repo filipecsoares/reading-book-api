@@ -26,7 +26,9 @@ fn configure_routes(cfg: &mut web::ServiceConfig) {
             .route("/books", web::post().to(add_book))
             .route("/books/{id}", web::get().to(get_book))
             .route("/books/{id}", web::delete().to(delete_book))
-            .route("/books/{id}", web::put().to(update_book)),
+            .route("/books/{id}", web::put().to(update_book))
+            .route("/books/{id}/completed", web::patch().to(complete_book))
+            .route("/books/{id}/reading", web::patch().to(reading_book)),
     );
 }
 
@@ -79,4 +81,14 @@ async fn update_book(request: web::Json<BookRequest>, id: web::Path<String>) -> 
     let id = id.into_inner();
     let book = Book::new_with_id(id, book);
     HttpResponse::Ok().json(db::update_book(book).expect("Failed to update book"))
+}
+
+async fn complete_book(id: web::Path<String>) -> HttpResponse {
+    let id = id.into_inner();
+    HttpResponse::Ok().json(db::complete_book(id).expect("Failed to complete book"))
+}
+
+async fn reading_book(id: web::Path<String>) -> HttpResponse {
+    let id = id.into_inner();
+    HttpResponse::Ok().json(db::reading_book(id).expect("Failed to reading book"))
 }
