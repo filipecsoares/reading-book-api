@@ -4,6 +4,8 @@ use actix_web::{rt::System, web, App, HttpResponse, HttpServer};
 
 use super::protocols::BookRequest;
 
+const DB_FILENAME: &str = ".books.json";
+
 pub async fn start_api() {
     let address = "127.0.0.1";
     let port = 8088;
@@ -38,7 +40,7 @@ async fn ping() -> HttpResponse {
 }
 
 async fn get_books() -> HttpResponse {
-    HttpResponse::Ok().json(db::read_books().expect("Failed to read books"))
+    HttpResponse::Ok().json(db::read_books(DB_FILENAME).expect("Failed to read books"))
 }
 
 async fn add_book(request: web::Json<BookRequest>) -> HttpResponse {
@@ -53,17 +55,17 @@ async fn add_book(request: web::Json<BookRequest>) -> HttpResponse {
         request.start_date,
         request.end_date,
     );
-    HttpResponse::Created().json(db::add_book(book).expect("Failed to add book"))
+    HttpResponse::Created().json(db::add_book(book, DB_FILENAME).expect("Failed to add book"))
 }
 
 async fn get_book(id: web::Path<String>) -> HttpResponse {
     let id = id.into_inner();
-    HttpResponse::Ok().json(db::get_book(id).expect("Failed to get book"))
+    HttpResponse::Ok().json(db::get_book(id, DB_FILENAME).expect("Failed to get book"))
 }
 
 async fn delete_book(id: web::Path<String>) -> HttpResponse {
     let id = id.into_inner();
-    HttpResponse::Ok().json(db::delete_book(id).expect("Failed to delete book"))
+    HttpResponse::Ok().json(db::delete_book(id, DB_FILENAME).expect("Failed to delete book"))
 }
 
 async fn update_book(request: web::Json<BookRequest>, id: web::Path<String>) -> HttpResponse {
@@ -80,15 +82,15 @@ async fn update_book(request: web::Json<BookRequest>, id: web::Path<String>) -> 
     );
     let id = id.into_inner();
     let book = Book::new_with_id(id, book);
-    HttpResponse::Ok().json(db::update_book(book).expect("Failed to update book"))
+    HttpResponse::Ok().json(db::update_book(book, DB_FILENAME).expect("Failed to update book"))
 }
 
 async fn complete_book(id: web::Path<String>) -> HttpResponse {
     let id = id.into_inner();
-    HttpResponse::Ok().json(db::complete_book(id).expect("Failed to complete book"))
+    HttpResponse::Ok().json(db::complete_book(id, DB_FILENAME).expect("Failed to complete book"))
 }
 
 async fn reading_book(id: web::Path<String>) -> HttpResponse {
     let id = id.into_inner();
-    HttpResponse::Ok().json(db::reading_book(id).expect("Failed to reading book"))
+    HttpResponse::Ok().json(db::reading_book(id, DB_FILENAME).expect("Failed to reading book"))
 }

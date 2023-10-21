@@ -2,7 +2,7 @@ use chrono::NaiveDate;
 use uuid::Uuid;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize, Serialize)]
+#[derive(Debug, Deserialize, Serialize, Clone, PartialEq)]
 pub struct Book {
     pub id: String,
     pub title: String,
@@ -69,7 +69,7 @@ impl Book {
     }
 }
 
-#[derive(Debug, PartialEq, Deserialize, Serialize)]
+#[derive(Debug, PartialEq, Deserialize, Serialize, Clone)]
 pub enum ReadingStatus {
     ToRead,
     Reading,
