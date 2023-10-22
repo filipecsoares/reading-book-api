@@ -1,6 +1,8 @@
 mod db;
 mod model;
 mod api;
+mod cli;
+
 use api::*;
 
 fn main() {
@@ -8,6 +10,6 @@ fn main() {
     if args.len() > 1 && args[1] == "-api" {
         routes::run();
     } else {
-        println!("Hello, CLI!");
+        cli::cli::run();
     }
 }
