@@ -1,13 +1,16 @@
-mod db;
-mod model;
 mod api;
 mod cli;
+mod db;
+mod model;
+
+use std::env;
 
 use api::*;
+use model::params::Params;
 
 fn main() {
-    let args: Vec<String> = std::env::args().collect();
-    if args.len() > 1 && args[1] == "-api" {
+    let params = Params::build(env::args()).unwrap();
+    if params.service == "-api" {
         routes::run();
     } else {
         cli::cli::run();
